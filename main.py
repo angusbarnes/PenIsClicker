@@ -2,11 +2,13 @@
 # Beginners Reference: https://www.pygame.org/docs/tut/PygameIntro.html
 
 import sys, pygame
-
+from pygame.locals import *
 
 pygame.init() # Init basic library
+myfont = pygame.font.SysFont('Comic Sans MS', 30) # TODO: Look at up freetype module (May provide better text rendering)
+textsurface = myfont.render('Some Text', False, (255, 0, 0))
 
-size = width, height = 1600, 900 # Screen size
+size = width, height = 800, 450 # Screen size
 speed = [2, 2]
 black = 0, 0, 0 # Black colour as RGB (255, 255, 255)
 
@@ -16,7 +18,10 @@ ball = pygame.image.load("HCH LOGO_1.png") # Loading a game image
 
 ballrect = ball.get_rect() # Gets dimensions of rect object (left, top, height, width)
 
+
+clicked = 0
 while 1: # While True
+
 
     # Event Polling
     # Loop through all the new 'events' that happened last frame
@@ -29,13 +34,21 @@ while 1: # While True
         # if so, quit the game (pygame.QUIT is just some hard coded integer, likely -1)
         if event.type == pygame.QUIT: sys.exit() # I THINK THIS LINE IS REALLY IMPORTANT TO NOT FUCK SHIT UP
 
-    # Some hinky dinky movement shit
-    ballrect = ballrect.move(speed)
-    if ballrect.left < 0 or ballrect.right > width:
-        speed[0] = -speed[0]
-    if ballrect.top < 0 or ballrect.bottom > height:
-        speed[1] = -speed[1]
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                print('A Pressed')
+                
+        
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if pygame.Rect.collidepoint(ballrect, event.pos):
+                    clicked += 1
+                    print("Clicked on rect")
 
+    textsurface = myfont.render(str(clicked), False, (255, 0, 0))
+
+    
     screen.fill(black) # Fill a Surface with solid colour
+    screen.blit(textsurface,(400,0))
     screen.blit(ball, ballrect) # Draw a source Surface to another Surface (drew ball into ballrect)
     pygame.display.flip() # Update full display to the screen
