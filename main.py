@@ -6,7 +6,7 @@ from pygame.locals import *
 
 pygame.init() # Init basic library
 myfont = pygame.font.SysFont('Comic Sans MS', 30) # TODO: Look at up freetype module (May provide better text rendering)
-textsurface = myfont.render('Some Text', False, (255, 0, 0))
+clock = pygame.time.Clock()
 
 size = width, height = 800, 450 # Screen size
 speed = [2, 2]
@@ -15,6 +15,8 @@ black = 0, 0, 0 # Black colour as RGB (255, 255, 255)
 screen = pygame.display.set_mode(size) # Initialises a window/screen of specified size
 
 ball = pygame.image.load("HCH LOGO_1.png") # Loading a game image
+bg = pygame.image.load("Background.png")
+rect_bg = bg.get_rect()
 
 ballrect = ball.get_rect() # Gets dimensions of rect object (left, top, height, width)
 
@@ -46,9 +48,13 @@ while 1: # While True
                     print("Clicked on rect")
 
     textsurface = myfont.render(str(clicked), False, (255, 0, 0))
+    txt_fps = myfont.render(str(clock.get_fps()), False, (0, 255, 0))
 
+    clock.tick(30)
     
     screen.fill(black) # Fill a Surface with solid colour
+    screen.blit(bg, rect_bg)
     screen.blit(textsurface,(400,0))
+    screen.blit(txt_fps, (0,0))
     screen.blit(ball, ballrect) # Draw a source Surface to another Surface (drew ball into ballrect)
     pygame.display.flip() # Update full display to the screen
