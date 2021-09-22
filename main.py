@@ -1,8 +1,6 @@
-# Lets get this shit started
-# Beginners Reference: https://www.pygame.org/docs/tut/PygameIntro.html
-
 import sys, pygame
 from pygame.locals import *
+import colors
 
 def get_centred_coords(rect, surf): # Centers an object on a surface
     x =  surf.get_width() / 2 - rect.width / 2
@@ -11,62 +9,54 @@ def get_centred_coords(rect, surf): # Centers an object on a surface
     rect.y = y
     return rect
 
-pygame.init() # Init basic library
-myfont = pygame.font.SysFont('Comic Sans MS', 30) # TODO: Look at up freetype module (May provide better text rendering)
+# Init nonsense
+pygame.init()
+fnt_comic_sans_30 = pygame.font.SysFont('Comic Sans MS', 30)
 clock = pygame.time.Clock()
+FPS_MAX = 60
 
-size = width, height = 800, 450 # Screen size
-speed = [2, 2]
-black = 0, 0, 0 # Black colour as RGB (255, 255, 255)
+# Set up screen
+screen_size = width, height = 800, 450
+screen = pygame.display.set_mode(screen_size)
 
-screen = pygame.display.set_mode(size) # Initialises a window/screen of specified size
+# Initialise images and their rects
+img_pen = pygame.image.load("images/pen.png")
+rect_pen = img_pen.get_rect() # Gets dimensions of rect object (left, top, height, width)
 
-pen = pygame.image.load("images/pen.png") # Loading a game image
-bg = pygame.image.load("images/Background.png")
-rect_bg = bg.get_rect()
-
-ballrect = pen.get_rect() # Gets dimensions of rect object (left, top, height, width)
-
+img_bg = pygame.image.load("images/Background.png")
+rect_bg = img_bg.get_rect()
 
 clicked = 0
 fps = 0
-while 1: # While True
+while True:
 
     fps = clock.get_fps()
 
-    # Event Polling
-    # Loop through all the new 'events' that happened last frame
-    # Key presses, frame updates, mouse movements and other inputs
-    # Events can also be generated from other elements of the game
-    # i.e 'EnnemyHit'
     for event in pygame.event.get():
 
-        # One line if statement: check if any of the 'events' are a quit message,
-        # if so, quit the game (pygame.QUIT is just some hard coded integer, likely -1)
         if event.type == pygame.QUIT: sys.exit() # I THINK THIS LINE IS REALLY IMPORTANT TO NOT FUCK SHIT UP
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
                 print('A Pressed')
                 
-        
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                if pygame.Rect.collidepoint(ballrect, event.pos):
+                if pygame.Rect.collidepoint(rect_pen, event.pos):
                     clicked += 1
                     print("Clicked on rect")
 
-    textsurface = myfont.render(str(clicked), False, (255, 0, 0))
-    txt_fps = myfont.render(str(fps), False, (0, 255, 0))
+    txt_click_count = fnt_comic_sans_30.render(str(clicked), False, colors.BLUE)
+    txt_fps = fnt_comic_sans_30.render(str(fps), False, colors.RED)
 
-    clock.tick(30)
+    clock.tick(FPS_MAX)
     
-    screen.fill(black) # Fill a Surface with solid colour
-    screen.blit(bg, rect_bg)
+    screen.fill(colors.ERROR_PINK) # If this color shows through, something is wrong
+    screen.blit(img_bg, rect_bg)
 
-    tp_cntr = get_centred_coords(textsurface.get_rect(), screen)
+    tp_cntr = get_centred_coords(txt_click_count.get_rect(), screen)
     tp_cntr.y = 0;
-    screen.blit(textsurface, tp_cntr)
-    screen.blit(pen, get_centred_coords(ballrect, screen))
+    screen.blit(txt_click_count, tp_cntr)
+    screen.blit(img_pen, get_centred_coords(rect_pen, screen))
     screen.blit(txt_fps, (0,0))
     pygame.display.flip() # Update full display to the screen
