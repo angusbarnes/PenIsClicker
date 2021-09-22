@@ -10,10 +10,13 @@ def get_centred_coords(rect, surf): # Centers an object on a surface
     return rect
 
 # Init nonsense
-pygame.init()
-fnt_comic_sans_30 = pygame.font.SysFont('Comic Sans MS', 30)
-clock = pygame.time.Clock()
 FPS_MAX = 60
+FONT_MAIN = 'Comic Sans MS' # Can be the name of any system font
+
+pygame.init()
+fnt_comic_sans_30 = pygame.font.SysFont(FONT_MAIN, 30)
+clock = pygame.time.Clock()
+
 
 # Set up screen
 screen_size = width, height = 800, 450
