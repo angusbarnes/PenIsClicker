@@ -21,16 +21,18 @@ black = 0, 0, 0 # Black colour as RGB (255, 255, 255)
 
 screen = pygame.display.set_mode(size) # Initialises a window/screen of specified size
 
-ball = pygame.image.load("pen.png") # Loading a game image
-bg = pygame.image.load("Background.png")
+pen = pygame.image.load("images/pen.png") # Loading a game image
+bg = pygame.image.load("images/Background.png")
 rect_bg = bg.get_rect()
 
-ballrect = ball.get_rect() # Gets dimensions of rect object (left, top, height, width)
+ballrect = pen.get_rect() # Gets dimensions of rect object (left, top, height, width)
 
 
 clicked = 0
+fps = 0
 while 1: # While True
 
+    fps = clock.get_fps()
 
     # Event Polling
     # Loop through all the new 'events' that happened last frame
@@ -55,13 +57,16 @@ while 1: # While True
                     print("Clicked on rect")
 
     textsurface = myfont.render(str(clicked), False, (255, 0, 0))
-    txt_fps = myfont.render(str(clock.get_fps()), False, (0, 255, 0))
+    txt_fps = myfont.render(str(fps), False, (0, 255, 0))
 
     clock.tick(30)
     
     screen.fill(black) # Fill a Surface with solid colour
     screen.blit(bg, rect_bg)
-    screen.blit(textsurface,(400,0))
-    screen.blit(ball, get_centred_coords(ballrect, screen))
+
+    tp_cntr = get_centred_coords(textsurface.get_rect(), screen)
+    tp_cntr.y = 0;
+    screen.blit(textsurface, tp_cntr)
+    screen.blit(pen, get_centred_coords(ballrect, screen))
     screen.blit(txt_fps, (0,0))
     pygame.display.flip() # Update full display to the screen
