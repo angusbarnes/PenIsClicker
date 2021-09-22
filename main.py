@@ -4,6 +4,13 @@
 import sys, pygame
 from pygame.locals import *
 
+def get_centred_coords(rect, surf): # Centers an object on a surface
+    x =  surf.get_width() / 2 - rect.width / 2
+    y =  surf.get_height() / 2 - rect.height / 2
+    rect.x = x
+    rect.y = y
+    return rect
+
 pygame.init() # Init basic library
 myfont = pygame.font.SysFont('Comic Sans MS', 30) # TODO: Look at up freetype module (May provide better text rendering)
 textsurface = myfont.render('Some Text', False, (255, 0, 0))
@@ -14,7 +21,7 @@ black = 0, 0, 0 # Black colour as RGB (255, 255, 255)
 
 screen = pygame.display.set_mode(size) # Initialises a window/screen of specified size
 
-ball = pygame.image.load("HCH LOGO_1.png") # Loading a game image
+ball = pygame.image.load("pen.png") # Loading a game image
 
 ballrect = ball.get_rect() # Gets dimensions of rect object (left, top, height, width)
 
@@ -50,5 +57,5 @@ while 1: # While True
     
     screen.fill(black) # Fill a Surface with solid colour
     screen.blit(textsurface,(400,0))
-    screen.blit(ball, ballrect) # Draw a source Surface to another Surface (drew ball into ballrect)
+    screen.blit(ball, get_centred_coords(ballrect, screen))
     pygame.display.flip() # Update full display to the screen
