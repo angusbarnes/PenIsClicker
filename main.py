@@ -37,8 +37,8 @@ while True:
         if event.type == pygame.QUIT: sys.exit() # I THINK THIS LINE IS REALLY IMPORTANT TO NOT FUCK SHIT UP
 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_a:
-                print('A Pressed')
+            if event.key == pygame.K_SPACE:
+                clicked += 1
                 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
