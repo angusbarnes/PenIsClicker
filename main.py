@@ -10,7 +10,7 @@ size = width, height = 1600, 900 # Screen size
 speed = [2, 2]
 black = 0, 0, 0 # Black colour as RGB (255, 255, 255)
 
-screen = pygame.display.set_mode(size) # !! Something to do with display config
+screen = pygame.display.set_mode(size) # Initialises a window/screen of specified size
 
 ball = pygame.image.load("HCH LOGO_1.png") # Loading a game image
 
@@ -36,7 +36,6 @@ while 1: # While True
     if ballrect.top < 0 or ballrect.bottom > height:
         speed[1] = -speed[1]
 
-    # !! What are these mysterious elements. Hmmm
-    screen.fill(black)
-    screen.blit(ball, ballrect)
-    pygame.display.flip()
+    screen.fill(black) # Fill a Surface with solid colour
+    screen.blit(ball, ballrect) # Draw a source Surface to another Surface (drew ball into ballrect)
+    pygame.display.flip() # Update full display to the screen
