@@ -16,7 +16,9 @@ FONT_MAIN = 'Comic Sans MS' # Can be the name of any system font
 pygame.init()
 fnt_comic_sans_30 = pygame.font.SysFont(FONT_MAIN, 30)
 clock = pygame.time.Clock()
-
+pygame.display.set_caption('PenIsClicker')
+img_balls = pygame.image.load('images/balls.png')
+pygame.display.set_icon(img_balls)
 
 # Set up screen
 screen_size = width, height = 800, 450
