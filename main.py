@@ -33,13 +33,14 @@ rect_bg = img_bg.get_rect()
 
 clicked = 0
 fps = 0
-while True:
+running = True
+while running:
 
     fps = clock.get_fps()
 
     for event in pygame.event.get():
 
-        if event.type == pygame.QUIT: sys.exit() # I THINK THIS LINE IS REALLY IMPORTANT TO NOT FUCK SHIT UP
+        if event.type == pygame.QUIT: running = False # I THINK THIS LINE IS REALLY IMPORTANT TO NOT FUCK SHIT UP
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
