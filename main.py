@@ -68,7 +68,7 @@ while running:
     tp_cntr = get_centred_x_coords(txt_click_count.get_rect(), screen)
     screen.blit(txt_click_count, tp_cntr)
     txt_multiplier_pos = get_centred_x_coords(txt_multiplier.get_rect(), screen)
-    txt_multiplier_pos.y += 25
+    txt_multiplier_pos.y += 30
     screen.blit(txt_multiplier, txt_multiplier_pos)
     if clicked:
         screen.blit(img_pen_clicked, get_centred_coords(rect_pen, screen))
