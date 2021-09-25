@@ -3,9 +3,9 @@ def click_pen(clicked): # Changes clicked/unclicked
 
 def multiplier(clicks):
     if clicks >= 10000:
-        return 10
+        return 20
     elif clicks >= 5000:
-        return 5
+        return 10
     elif clicks >= 1000:
         return 5
     elif clicks >= 420:
