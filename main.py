@@ -32,8 +32,6 @@ rect_bg = img_bg.get_rect()
 
 img_title = pygame.image.load("images/title_screen.png")
 rect_title = img_title.get_rect()
-while clock.get_time() < 2:
-    screen.blit(img_title, [0,0])
 
 clicks = get_clicks() # Click counter
 clicked = False # Pen is clicked or not
@@ -49,8 +47,7 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                clicks += 1 * multiplier(clicks)
-                clicked = click_pen(clicked)
+                clicked += 1
                 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
