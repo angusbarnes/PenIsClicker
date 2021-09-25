@@ -57,6 +57,7 @@ while running:
                     print("Clicked the pen")
 
     txt_click_count = fnt_comic_sans_30.render(str(clicks), False, colors.BLUE)
+    txt_multiplier = fnt_comic_sans_30.render("click multiplier: " + str(multiplier(clicks)), False, colors.BLUE)
     txt_fps = fnt_comic_sans_30.render("fps " + str(fps), False, colors.RED)
 
     clock.tick(FPS_MAX)
@@ -66,6 +67,9 @@ while running:
 
     tp_cntr = get_centred_x_coords(txt_click_count.get_rect(), screen)
     screen.blit(txt_click_count, tp_cntr)
+    txt_multiplier_pos = get_centred_x_coords(txt_multiplier.get_rect(), screen)
+    txt_multiplier_pos.y += 25
+    screen.blit(txt_multiplier, txt_multiplier_pos)
     if clicked:
         screen.blit(img_pen_clicked, get_centred_coords(rect_pen, screen))
     else:
