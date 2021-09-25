@@ -49,7 +49,8 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                clicked += 1
+                clicks += 1 * multiplier(clicks)
+                clicked = click_pen(clicked)
                 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
