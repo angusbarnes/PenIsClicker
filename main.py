@@ -1,5 +1,6 @@
 import sys, pygame
 from pygame.locals import *
+from pygame.time import *
 import colors
 from gameplay_functions import *
 from helper_functions import *
@@ -28,6 +29,11 @@ rect_pen_clicked = img_pen_clicked.get_rect()
 
 img_bg = pygame.image.load("images/Background.png")
 rect_bg = img_bg.get_rect()
+
+img_title = pygame.image.load("images/title_screen.png")
+rect_title = img_title.get_rect()
+while clock.get_time() < 2:
+    screen.blit(img_title, [0,0])
 
 clicks = get_clicks() # Click counter
 clicked = False # Pen is clicked or not
