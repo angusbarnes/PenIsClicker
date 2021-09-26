@@ -49,7 +49,7 @@ def get_clicks():
  
     # Try to read the high score from a file
     try:
-        no_clicks = open("high_score.cfg", "r")
+        no_clicks = open("cfg/high_score.cfg", "r")
         high_score = int(no_clicks.read())
         no_clicks.close()
         print("The high score is", high_score)
@@ -66,7 +66,7 @@ def get_clicks():
 def save_clicks(new_high_score):
     try:
         # Write the file to disk
-        no_clicks = open("high_score.cfg", "w")
+        no_clicks = open("cfg/high_score.cfg", "w")
         no_clicks.write(str(new_high_score))
         no_clicks.close()
     except IOError:

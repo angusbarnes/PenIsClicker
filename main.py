@@ -4,11 +4,14 @@ from pygame.time import *
 import colors
 from gameplay_functions import *
 from helper_functions import *
+from config import DEFAULT_CONFIG_PATH, config, default_config
 
 
 # Init nonsense
-FPS_MAX = 60
-FONT_MAIN = 'Comic Sans MS' # Can be the name of any system font
+DEFAULT_SETTINGS = config('DEFAULT_SETTINGS')
+settings = default_config(DEFAULT_SETTINGS, 'user_settings.cfg')
+FPS_MAX = settings.get("FPS_MAX")
+FONT_MAIN = settings.get("FONT_MAIN")
 
 pygame.init()
 fnt_comic_sans_30 = pygame.font.SysFont(FONT_MAIN, 30)
@@ -33,26 +36,30 @@ rect_bg = img_bg.get_rect()
 img_title = pygame.image.load("images/title_screen.png")
 rect_title = img_title.get_rect()
 
+
+
 clicks = get_clicks() # Click counter
 clicked = False # Pen is clicked or not
 fps = 0
 cps = 0
 time = 0
 running = True
+
 while running:
 
     fps = round(clock.get_fps(), 2)
 
     for event in pygame.event.get():
 
-        if event.type == pygame.QUIT: running = False # I THINK THIS LINE IS REALLY IMPORTANT TO NOT FUCK SHIT UP
+        if event.type == pygame.QUIT: 
+            running = False # I THINK THIS LINE IS REALLY IMPORTANT TO NOT FUCK SHIT UP
+            settings.save()
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 clicks += 1 * multiplier(clicks)
                 clicked = click_pen(clicked)
                 time = update_clicks_per_second()
-                print("Clicked the pen")
                 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
@@ -60,7 +67,6 @@ while running:
                     clicks += 1 * multiplier(clicks)
                     clicked = click_pen(clicked)
                     time = update_clicks_per_second()
-                    print("Clicked the pen")
 
     cps = round(get_clicks_per_second(), 1)
 
