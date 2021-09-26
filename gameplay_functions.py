@@ -1,8 +1,37 @@
+from pygame.time import get_ticks
+
 def click_pen(clicked): # Changes clicked/unclicked
     return not clicked
 
+clicks_last_second = [] # Stores the time of clicks
+
+def update_clicks_per_second(): # Get time of most recent click, store it, return that time
+    now = get_ticks()
+    clicks_last_second.append(get_ticks())
+
+    return now
+
+def get_clicks_per_second(): # Get current time, remove all clicks over 1 sec ago, return clicks / 1 sec
+    now = get_ticks()
+
+    start_time = now - 1000
+
+    while clicks_last_second and clicks_last_second[0] < start_time:
+        clicks_last_second.pop(0)
+
+    if len(clicks_last_second) > 1:
+        return len(clicks_last_second) / 1000 * 1000
+    elif len(clicks_last_second) == 1:
+        return 1
+    else:
+        return 0
+
 def multiplier(clicks):
-    if clicks >= 10000:
+    if clicks >= 1000000:
+        return 42
+    elif clicks >= 100000:
+        return 25
+    elif clicks >= 10000:
         return 20
     elif clicks >= 5000:
         return 10

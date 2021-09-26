@@ -36,6 +36,8 @@ rect_title = img_title.get_rect()
 clicks = get_clicks() # Click counter
 clicked = False # Pen is clicked or not
 fps = 0
+cps = 0
+time = 0
 running = True
 while running:
 
@@ -49,6 +51,7 @@ while running:
             if event.key == pygame.K_SPACE:
                 clicks += 1 * multiplier(clicks)
                 clicked = click_pen(clicked)
+                time = update_clicks_per_second()
                 print("Clicked the pen")
                 
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -56,11 +59,15 @@ while running:
                 if pygame.Rect.collidepoint(rect_pen, event.pos):
                     clicks += 1 * multiplier(clicks)
                     clicked = click_pen(clicked)
+                    time = update_clicks_per_second()
                     print("Clicked the pen")
+
+    cps = round(get_clicks_per_second(), 1)
 
     txt_click_count = fnt_comic_sans_30.render(str(clicks), False, colors.BLUE)
     txt_multiplier = fnt_comic_sans_30.render("click multiplier: " + str(multiplier(clicks)), False, colors.BLUE)
     txt_fps = fnt_comic_sans_30.render("fps " + str(fps), False, colors.RED)
+    txt_cps = fnt_comic_sans_30.render("Clicks per second:  " + str(cps), False, colors.BLUE)
 
     clock.tick(FPS_MAX)
     
@@ -72,6 +79,11 @@ while running:
     txt_multiplier_pos = get_centred_x_coords(txt_multiplier.get_rect(), screen)
     txt_multiplier_pos.y += 30
     screen.blit(txt_multiplier, txt_multiplier_pos)
+
+    txt_cps_pos = get_centred_x_coords(txt_cps.get_rect(), screen)
+    txt_cps_pos.y += 60
+    screen.blit(txt_cps, txt_cps_pos)
+
     if clicked:
         screen.blit(img_pen_clicked, get_centred_coords(rect_pen, screen))
     else:
