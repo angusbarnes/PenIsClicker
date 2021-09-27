@@ -1,4 +1,5 @@
 from pygame.time import get_ticks
+MILLION = 10**6
 
 def click_pen(clicked): # Changes clicked/unclicked
     return not clicked
@@ -27,7 +28,9 @@ def get_clicks_per_second(): # Get current time, remove all clicks over 1 sec ag
         return 0
 
 def multiplier(clicks):
-    if clicks >= 1000000:
+    if clicks >= 10*MILLION:
+        return 69
+    elif clicks >= 1000000:
         return 42
     elif clicks >= 100000:
         return 25
