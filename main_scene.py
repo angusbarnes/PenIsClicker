@@ -53,10 +53,6 @@ class main_scene(scene):
 
         for event in pygame.event.get():
 
-            if event.type == pygame.QUIT: 
-                self.end_scene()
-                self.settings.save()
-
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     self.clicks += 1 * multiplier(self.clicks)
@@ -99,4 +95,8 @@ class main_scene(scene):
         self.screen.blit(txt_fps, (0,0))
         pygame.display.flip() # Update full display to the screen
 
+        
+    
+    def end(self):
+        self.settings.save()
         save_clicks(self.clicks)

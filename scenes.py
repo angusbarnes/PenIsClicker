@@ -1,4 +1,6 @@
 
+import pygame
+
 class is_serialisable:
 
     def save() -> dict:
@@ -51,12 +53,16 @@ class scene(is_serialisable):
     def __init__(self):
         self.on_awake += self.awake
         self.on_update += self.update
+        self.on_end += self.end
         print(self.on_awake)
 
     def awake(self):
         pass
 
     def update(self):
+        pass
+
+    def end(self):
         pass
 
     def end_scene(self):
@@ -81,6 +87,8 @@ class scene_manager:
 
     def load_scene(self, scene):
         scene._awake()
-
+   
         while scene.is_running:
+            if pygame.event.get(pygame.QUIT):
+                scene.end_scene()
             scene._update()
