@@ -36,8 +36,6 @@ rect_bg = img_bg.get_rect()
 img_title = pygame.image.load("images/title_screen.png")
 rect_title = img_title.get_rect()
 
-
-
 clicks = get_clicks() # Click counter
 clicked = False # Pen is clicked or not
 fps = 0
