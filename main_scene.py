@@ -7,6 +7,7 @@ from gameplay_functions import *
 from helper_functions import *
 from config import DEFAULT_CONFIG_PATH, config, default_config
 from scenes import *
+from pygame import mixer
 
 class main_scene(scene):
 
@@ -17,7 +18,6 @@ class main_scene(scene):
         self.FPS_MAX = self.settings.get("FPS_MAX")
         self.FONT_MAIN = self.settings.get("FONT_MAIN")
 
-        pygame.init()
         self.fnt_comic_sans_30 = pygame.font.SysFont(self.FONT_MAIN, 30)
         self.clock = pygame.time.Clock()
         pygame.display.set_caption('PenIsClicker')
@@ -42,9 +42,11 @@ class main_scene(scene):
 
         self.clicks = get_clicks() # Click counter
 
+        self.fx_click = mixer.Sound("audio/pen click but clickier.ogg")
+        self.clicked = False
+
     def update(self):
         
-        clicked = False # Pen is clicked or not
         fps = 0
         cps = 0
         self.time = 0
@@ -56,15 +58,17 @@ class main_scene(scene):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     self.clicks += 1 * multiplier(self.clicks)
-                    clicked = click_pen(clicked)
+                    self.clicked = not self.clicked
                     self.time = update_clicks_per_second()
+                    self.fx_click.play()
                     
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if pygame.Rect.collidepoint(self.rect_pen, event.pos):
                         self.clicks += 1 * multiplier(self.clicks)
-                        clicked = click_pen(clicked)
+                        self.clicked = not self.clicked
                         self.time = update_clicks_per_second()
+                        self.fx_click.play()
 
         self.cps = round(get_clicks_per_second(), 1)
 
@@ -88,7 +92,7 @@ class main_scene(scene):
         txt_cps_pos.y += 60
         self.screen.blit(txt_cps, txt_cps_pos)
 
-        if clicked:
+        if self.clicked:
             self.screen.blit(self.img_pen_clicked, get_centred_coords(self.rect_pen, self.screen))
         else:
             self.screen.blit(self.img_pen, get_centred_coords(self.rect_pen, self.screen))

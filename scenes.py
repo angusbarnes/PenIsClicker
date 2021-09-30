@@ -82,10 +82,20 @@ class scene(is_serialisable):
 
 class scene_manager:
 
+    instance = None
+
     def __init__(self):
-        pass
+        if not scene_manager.instance:
+            scene_manager.instance = self
+        else: raise Exception("There should only be one instance of scene_manager")
+        self.currently_playing = None
 
     def load_scene(self, scene):
+        
+        if self.currently_playing:
+            self.currently_playing.end_scene()
+        
+        self.currently_playing = scene
         scene._awake()
    
         while scene.is_running:
