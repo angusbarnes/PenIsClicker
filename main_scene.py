@@ -18,6 +18,7 @@ class main_scene(scene):
         self.FPS_MAX = self.settings.get("FPS_MAX")
         self.FONT_MAIN = self.settings.get("FONT_MAIN")
 
+
         self.fnt_comic_sans_30 = pygame.font.SysFont(self.FONT_MAIN, 30)
         self.clock = pygame.time.Clock()
         pygame.display.set_caption('PenIsClicker')
@@ -70,7 +71,7 @@ class main_scene(scene):
                         self.time = update_clicks_per_second()
                         self.fx_click.play()
 
-        self.cps = round(get_clicks_per_second(), 1)
+        cps = round(get_clicks_per_second(), 1) * multiplier(self.clicks)
 
         txt_click_count = self.fnt_comic_sans_30.render(str(self.clicks), False, colors.BLUE)
         txt_multiplier = self.fnt_comic_sans_30.render("click multiplier: " + str(multiplier(self.clicks)), False, colors.BLUE)

@@ -8,7 +8,7 @@ clicks_last_second = [] # Stores the time of clicks
 
 def update_clicks_per_second(): # Get time of most recent click, store it, return that time
     now = get_ticks()
-    clicks_last_second.append(get_ticks())
+    clicks_last_second.append(now)
 
     return now
 
