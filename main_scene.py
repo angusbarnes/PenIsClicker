@@ -9,10 +9,22 @@ from config import DEFAULT_CONFIG_PATH, config, default_config
 from scenes import *
 from pygame import mixer
 
+# Parts of the game now exist inside classes.
+# The concept behing this is to think of each part of the game as a 'scene'
+# There is some fancy black magic behind the scenes here to make this work.
+# This class 'inherits' from the master class called 'scene'. Don't worry
+# about that detail too much though
 class main_scene(scene):
-
+    #             ^^^^
+    # When a class inherits from 'scene' it gains some fancy functions
+    # a function called 'awake' will be called once when the scene loads
     def awake(self):
-        # Init nonsense
+        # Init nonsense, things that only need to be done once should happen here
+        # This is all code wer already had written
+        # variables that need to be accessed at other points in the scene must be stored in 'self'
+        
+        # This is the new config API, we can use it to save and load stuff.
+        # I advise against touching it right now as it is an unstable API
         self.DEFAULT_SETTINGS = config('DEFAULT_SETTINGS')
         self.settings = default_config(self.DEFAULT_SETTINGS, 'user_settings.cfg')
         self.FPS_MAX = self.settings.get("FPS_MAX")
@@ -43,33 +55,37 @@ class main_scene(scene):
 
         self.clicks = get_clicks() # Click counter
 
-        self.fx_click = mixer.Sound("audio/pen click but clickier.ogg")
+        # This is how we load 'one shot' audio samples
+        # fx_ is the prefix we will use for this purpose
+        self.sfx_click = mixer.Sound("audio/pen click but clickier.ogg")
         self.clicked = False
 
+    # functions named update gets called once every frame, this is where we put the main gameplay loop.
     def update(self):
         
-        fps = 0
+        # Local function (can only be accessed inside of update)
+        # This is just to clean up the repeated code we had below
+        def click_event():
+            self.clicks += 1 * multiplier(self.clicks)
+            self.clicked = not self.clicked
+            self.time = update_clicks_per_second()
+            self.sfx_click.play()
+
+        fps = round(self.clock.get_fps(), 2)
         cps = 0
         self.time = 0
 
-        fps = round(self.clock.get_fps(), 2)
-
+        # WE DO NOT NEED TO HANDLE pygame.QUIT, this gets handled outside of the scene
         for event in pygame.event.get():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    self.clicks += 1 * multiplier(self.clicks)
-                    self.clicked = not self.clicked
-                    self.time = update_clicks_per_second()
-                    self.fx_click.play()
+                    click_event()
                     
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if pygame.Rect.collidepoint(self.rect_pen, event.pos):
-                        self.clicks += 1 * multiplier(self.clicks)
-                        self.clicked = not self.clicked
-                        self.time = update_clicks_per_second()
-                        self.fx_click.play()
+                        click_event()
 
         cps = round(get_clicks_per_second(), 1) * multiplier(self.clicks)
 
@@ -100,8 +116,10 @@ class main_scene(scene):
         self.screen.blit(txt_fps, (0,0))
         pygame.display.flip() # Update full display to the screen
 
-        
-    
+    # the function named 'end' gets called once at the end of a scene.
+    # the 'scene_manager' class is responsible for managing scenes. It will tell
+    # scenes when to end and call the relevant functions. See scenes.py for more info
     def end(self):
+        # Doing some housekeeping and last minute clean up
         self.settings.save()
         save_clicks(self.clicks)

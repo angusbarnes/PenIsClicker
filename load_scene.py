@@ -14,8 +14,8 @@ class loading_scene(scene):
 
         self.screen_size = width, height = 800, 450
         self.screen = pygame.display.set_mode(self.screen_size)
-        self.fx_intro = pygame.mixer.Sound("audio/game intro.mp3")
-        self.fx_intro.play()
+        self.sfx_intro = pygame.mixer.Sound("audio/game intro.mp3")
+        self.sfx_intro.play()
 
         # THIS IS HELLA SCUFFED BUT IT WORKS SO DONT TOUCH IT
         self.screen.blit(self.img_splash,(0,0))
