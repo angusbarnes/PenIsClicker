@@ -42,9 +42,9 @@ class main_scene(scene):
         self.screen = pygame.display.set_mode(self.screen_size)
 
         # Initialise images and their rects
-        self.img_pen = pygame.image.load("images/pen.png")
+        self.img_pen = pygame.image.load("images/shiny_pen.png")
         self.rect_pen = self.img_pen.get_rect() # Gets dimensions of rect object (left, top, height, width)
-        self.img_pen_clicked = pygame.image.load("images/pen_clicked.png")
+        self.img_pen_clicked = pygame.image.load("images/shiny_pen_clicked.png")
         self.rect_pen_clicked = self.img_pen_clicked.get_rect()
 
         self.img_bg = pygame.image.load("images/Background.png")
