@@ -78,4 +78,4 @@ def save_clicks(new_high_score):
         no_clicks.close()
     except IOError:
         # Hm, can't write it.
-        print("Unable to save the high score.")
+        raise IOError("Unable to save the high score.")
