@@ -28,7 +28,11 @@ def get_clicks_per_second(): # Get current time, remove all clicks over 1 sec ag
         return 0
 
 def multiplier(clicks):
-    if clicks >= 10*MILLION:
+    if clicks >= 100*MILLION:
+        return 100.420
+    elif clicks >= 20*MILLION:
+        return 71.69
+    elif clicks >= 10*MILLION:
         return 69
     elif clicks >= 1000000:
         return 42
